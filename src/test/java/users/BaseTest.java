@@ -2,9 +2,9 @@ package users;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.LogDetail;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 
 public class BaseTest {
 
@@ -13,6 +13,11 @@ public class BaseTest {
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .setBaseUri("https://jsonplaceholder.typicode.com/")
                 .setContentType("application/json; charset=UTF-8")
+                .log(LogDetail.ALL)
+                .build();
+
+        RestAssured.responseSpecification = new ResponseSpecBuilder()
+                .log(LogDetail.ALL)
                 .build();
     }
 }

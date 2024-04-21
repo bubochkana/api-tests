@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 import models.users.*;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UsersTest extends BaseTest {
@@ -82,27 +82,19 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void createUser() {
-        Response response =
-                given()
-                        .body(user9)
-                .when()
-                        .post("users");
+        Response response = with().body(user9).post("users");
 
         assertThat(response.getStatusCode()).isEqualTo(201);
         assertThat(response.getBody().as(UserResponse.class))
                 .usingRecursiveComparison()
-                //TODO - the user is created with id=11, however we pass id=9 in the request, probably id is not needed in the request?
+                //TODO - the user is always created with id=11, however we pass id=9 in the request, probably id is not needed in the request?
                 .ignoringFields("id")
                 .isEqualTo(user9);
     }
 
     @Test(groups = "Users")
     public void updateUser() {
-        Response response =
-                given()
-                        .body(user10)
-                .when()
-                        .put("users/1");
+        Response response = with().body(user10).put("users/1");
 
         assertThat(response.getStatusCode()).isEqualTo(200);
         assertThat(response.getBody().as(UserResponse.class))
@@ -113,23 +105,15 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void getInvalidUser(){
-        Response response =
-                given()
-                .when()
-                        .get("users/100");
+        Response response = get("users/100");
 
-        assertThat(response.getStatusCode()).isEqualTo(404)
-                //.withFailMessage()
-        ;
+        assertThat(response.getStatusCode()).isEqualTo(404);
         //TODO - verify the error message text? response.asString() gives "{}"
 
     }
     @Test(groups = "Users")
     public void getUser(){
-        Response response =
-                given()
-                .when()
-                        .get("users/1");
+        Response response = get("users/1");
 
         assertThat(response.getStatusCode()).isEqualTo(200);
         assertThat(response.getBody().as(UserResponse.class))
@@ -139,12 +123,9 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void getUsersCount(){
-        Response response =
-                given()
-                .when()
-                        .get("users");
+        Response response = get("users");
 
         assertThat(response.getStatusCode()).isEqualTo(200);
-        assertThat(response.as(UserResponse[].class).length).isGreaterThan(5);
+        assertThat(response.as(UserResponse[].class)).hasSizeGreaterThan(5);
     }
 }
