@@ -1,4 +1,4 @@
-package models.users;
+package org.github.bubochkana.models.users;
 
 import lombok.*;
 
@@ -7,13 +7,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequest {
+public class UserRequestDto {
     private int id;
     private String name;
     private String username;
     private String email;
-    private Address address;
+    private AddressDto address;
     private String phone;
     private String website;
-    private Company company;
+    private CompanyDto companyDto;
 }

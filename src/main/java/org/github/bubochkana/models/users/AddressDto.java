@@ -1,4 +1,4 @@
-package models.users;
+package org.github.bubochkana.models.users;
 
 import lombok.*;
 
@@ -7,10 +7,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class AddressDto {
     private String street;
     private String suite;
     private String city;
     private String zipcode;
-    private Geo geo;
+    private GeoDto geoDto;
 }

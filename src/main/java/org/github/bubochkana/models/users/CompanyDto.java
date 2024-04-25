@@ -1,4 +1,4 @@
-package models.users;
+package org.github.bubochkana.models.users;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company {
+public class CompanyDto {
     private String name;
     private String catchPhrase;
     private String bs;
