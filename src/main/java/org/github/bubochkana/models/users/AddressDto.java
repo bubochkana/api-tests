@@ -12,5 +12,5 @@ public class AddressDto {
     private String suite;
     private String city;
     private String zipcode;
-    private GeoDto geoDto;
+    private GeoDto geo;
 }

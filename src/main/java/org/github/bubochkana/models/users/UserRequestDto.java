@@ -15,5 +15,5 @@ public class UserRequestDto {
     private AddressDto address;
     private String phone;
     private String website;
-    private CompanyDto companyDto;
+    private CompanyDto company;
 }
