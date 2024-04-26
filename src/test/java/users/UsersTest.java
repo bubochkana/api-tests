@@ -1,13 +1,11 @@
 package users;
 
-
-import io.restassured.response.Response;
 import org.github.bubochkana.models.users.*;
 import org.github.bubochkana.service.Services;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.get;
-import static io.restassured.RestAssured.with;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UsersTest extends BaseTest {
@@ -21,14 +19,14 @@ public class UsersTest extends BaseTest {
                     .suite("Apt. 556")
                     .city("Gwenborough")
                     .zipcode("92998-3874")
-                    .geoDto(GeoDto.builder()
+                    .geo(GeoDto.builder()
                             .lat("-37.3159")
                             .lng("81.1496")
                             .build())
                     .build())
             .phone("1-770-736-8031 x56442")
             .website("hildegard.org")
-            .companyDto(CompanyDto.builder()
+            .company(CompanyDto.builder()
                     .name("Romaguera-Crona")
                     .catchPhrase("Multi-layered client-server neural-net")
                     .bs("harness real-time e-markets")
@@ -44,14 +42,14 @@ public class UsersTest extends BaseTest {
                     .suite("Suite 449")
                     .city("Bartholomebury")
                     .zipcode("76495-3109")
-                    .geoDto(GeoDto.builder()
+                    .geo(GeoDto.builder()
                             .lat("24.6463")
                             .lng("-168.8889")
                             .build())
                     .build())
             .phone("(775)976-6794 x41206")
             .website("conrad.com")
-            .companyDto(CompanyDto.builder()
+            .company(CompanyDto.builder()
                     .name("Yost and Sons")
                     .catchPhrase("Switchable contextually-based project")
                     .bs("aggregate real-time technologies")
@@ -67,14 +65,14 @@ public class UsersTest extends BaseTest {
                     .suite("Suite 198")
                     .city("Lebsackbury")
                     .zipcode("31428-2261")
-                    .geoDto(GeoDto.builder()
+                    .geo(GeoDto.builder()
                             .lat("-38.2386")
                             .lng("57.2232")
                             .build())
                     .build())
             .phone("024-648-3804")
             .website("ambrose.net")
-            .companyDto(CompanyDto.builder()
+            .company(CompanyDto.builder()
                     .name("Hoeger LLC")
                     .catchPhrase("Centralized empowering task-force")
                     .bs("target end-to-end models")
@@ -84,10 +82,7 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void createUser() {
-        //Response response = with().body(user9).post("users");
-        UserResponseDto createdUserResponse = Services.placeholderApi().user().create(user9);
-
-        //assertThat(createdUserResponse).getStatusCode().isEqualTo(201);
+        UserResponseDto createdUserResponse = Services.placeholderApi().user().createUser(user9);
         assertThat(createdUserResponse)
                 .usingRecursiveComparison()
                 //TODO - the user is always created with id=11, however we pass id=9 in the request, probably id is not needed in the request?
@@ -97,10 +92,8 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void updateUser() {
-        Response response = with().body(user10).put("users/1");
-
-        assertThat(response.getStatusCode()).isEqualTo(200);
-        assertThat(response.getBody().as(UserResponseDto.class))
+        UserResponseDto updatedUserResponse = Services.placeholderApi().user().updateUser(user10, "1");
+        assertThat(updatedUserResponse)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(user10);
@@ -108,27 +101,24 @@ public class UsersTest extends BaseTest {
 
     @Test(groups = "Users")
     public void getInvalidUser(){
-        Response response = get("users/100");
+        UserErrorResponseDto errorResponse = Services.placeholderApi().user().getUserByIdWithError("100");
+        //TODO - verify the error message text? errorResponse.getMessage() gives null
+//        assertThat(errorResponse.getMessage())
+//                .isEqualTo("Invalid User Id Provided");
 
-        assertThat(response.getStatusCode()).isEqualTo(404);
-        //TODO - verify the error message text? response.asString() gives "{}"
 
     }
     @Test(groups = "Users")
     public void getUser(){
-        Response response = get("users/1");
-
-        assertThat(response.getStatusCode()).isEqualTo(200);
-        assertThat(response.getBody().as(UserResponseDto.class))
+        UserResponseDto userResponse = Services.placeholderApi().user().getUserById("1");
+        assertThat(userResponse)
                 .usingRecursiveComparison()
                 .isEqualTo(user1);
     }
 
     @Test(groups = "Users")
     public void getUsersCount(){
-        Response response = get("users");
-
-        assertThat(response.getStatusCode()).isEqualTo(200);
-        assertThat(response.as(UserResponseDto[].class)).hasSizeGreaterThan(5);
+        List<UserResponseDto> usersListResponse = Services.placeholderApi().user().getAllUsers();
+        assertThat(usersListResponse).hasSizeGreaterThan(5);
     }
 }

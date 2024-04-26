@@ -26,19 +26,14 @@ public abstract class AbstractWebEndpoint {
         RequestSpecBuilder specBuilder = new RequestSpecBuilder();
         specBuilder.addRequestSpecification(requestSpecification);
         return RestAssured.given()
-                .log().all()
                 .spec(specBuilder.build())
-                .log().all()
                 .body(body)
-                .log().all()
                 .when()
-                .log().all()
                 .post(path)
-                .then()
-                .log().all();
+                .then();
     }
 
-    public ValidatableResponse put(RequestSpecification requestSpecification, String path, String body) {
+    public ValidatableResponse put(RequestSpecification requestSpecification, String path, Object body) {
         RequestSpecBuilder specBuilder = new RequestSpecBuilder();
         specBuilder.addRequestSpecification(requestSpecification);
         return RestAssured.given()

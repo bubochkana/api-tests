@@ -7,10 +7,14 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
+import org.github.bubochkana.config.MavenProperties;
 import org.github.bubochkana.models.ServiceConfigDto;
 
 public abstract class AbstractWebService {
-    private ServiceConfigDto serviceConfigDto = new ServiceConfigDto();
+    protected ServiceConfigDto serviceConfigDto;
+    protected AbstractWebService(){
+        this.serviceConfigDto = MavenProperties.setServiceConfig();
+    }
 
     protected RequestSpecification getDefaultSpecification(){
         RequestSpecBuilder specBuilder = new RequestSpecBuilder()

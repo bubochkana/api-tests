@@ -15,13 +15,14 @@ public class MavenProperties {
         properties = loadProperties();
     }
 
-    public static MavenProperties getInstance(){
-        if(instance == null) {
+    public static MavenProperties getInstance() {
+        if (instance == null) {
             instance = new MavenProperties();
         }
         return instance;
     }
-    private Properties loadProperties()  {
+
+    private Properties loadProperties() {
         Properties props = new Properties();
 
         try (InputStream in = MavenProperties.class.getResourceAsStream(MAVEN_PROPERTIES)) {
@@ -30,6 +31,14 @@ public class MavenProperties {
             e.getStackTrace();
         }
         return props;
+    }
+
+    public static ServiceConfigDto setServiceConfig() {
+        ServiceConfigDto serviceConfigDto = new ServiceConfigDto();
+        serviceConfigDto.setApiUrl(MavenProperties.getInstance().loadProperties().getProperty("dev.placeholder.service.url"));
+        serviceConfigDto.setApiPort(Integer.parseInt(MavenProperties.getInstance().loadProperties().getProperty("dev.placeholder.service.port")));
+        serviceConfigDto.setApiBasePath(MavenProperties.getInstance().loadProperties().getProperty("dev.placeholder.service.basepath"));
+        return serviceConfigDto;
     }
 
     public ServiceConfigDto getEnvironment() {
