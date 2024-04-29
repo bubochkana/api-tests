@@ -7,28 +7,30 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
-import org.github.bubochkana.config.MavenProperties;
+import org.github.bubochkana.config.ServiceConfigLoader;
 import org.github.bubochkana.models.ServiceConfigDto;
 
 public abstract class AbstractWebService {
-    protected ServiceConfigDto serviceConfigDto;
-    protected AbstractWebService(){
-        this.serviceConfigDto = MavenProperties.setServiceConfig();
-    }
+  protected ServiceConfigDto serviceConfigDto;
 
-    protected RequestSpecification getDefaultSpecification(){
-        RequestSpecBuilder specBuilder = new RequestSpecBuilder()
-                .setContentType(ContentType.JSON)
-                .setBaseUri(serviceConfigDto.getApiUrl())
-                .setPort(serviceConfigDto.getApiPort());
-        if (!StringUtils.isEmpty(serviceConfigDto.getApiBasePath())) {
-            specBuilder.setBasePath(serviceConfigDto.getApiBasePath());
-        }
-        specBuilder
-                .addFilter(new ResponseLoggingFilter())
-                .addFilter(new RequestLoggingFilter())
-                .addFilter(new ErrorLoggingFilter());
+  protected AbstractWebService() {
+    this.serviceConfigDto = ServiceConfigLoader.loadServiceConfig();
+  }
 
-        return specBuilder.build();
+  protected RequestSpecification getDefaultSpecification() {
+    RequestSpecBuilder specBuilder =
+        new RequestSpecBuilder()
+            .setContentType(ContentType.JSON)
+            .setBaseUri(serviceConfigDto.getApiUrl())
+            .setPort(serviceConfigDto.getApiPort());
+    if (!StringUtils.isEmpty(serviceConfigDto.getApiBasePath())) {
+      specBuilder.setBasePath(serviceConfigDto.getApiBasePath());
     }
+    specBuilder
+        .addFilter(new ResponseLoggingFilter())
+        .addFilter(new RequestLoggingFilter())
+        .addFilter(new ErrorLoggingFilter());
+
+    return specBuilder.build();
+  }
 }

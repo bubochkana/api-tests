@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Tests Suite">
-    <test name="Check Users">
+    <test name="Check Users" preserve-order="true">
         <!--Uncommenting groups tag causes Connection refused error when running through xml-->
 <!--        <groups>-->
 <!--            <run>-->
@@ -9,7 +9,7 @@
 <!--            </run>-->
 <!--        </groups>-->
         <classes>
-            <class name="users.UsersTest"/>
+            <class name="org.github.bubochkana.placeholder.api.users.UsersTest"/>
         </classes>
     </test>
 </suite>

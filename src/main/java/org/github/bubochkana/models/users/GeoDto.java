@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeoDto {
-    private String lat;
-    private String lng;
+  private String lat;
+  private String lng;
 }
