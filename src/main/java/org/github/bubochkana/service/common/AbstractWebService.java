@@ -8,23 +8,24 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
 import org.github.bubochkana.config.ServiceConfigLoader;
-import org.github.bubochkana.models.ServiceConfigDto;
+import org.github.bubochkana.config.models.ServiceConfigDto;
 
 public abstract class AbstractWebService {
   protected ServiceConfigDto serviceConfigDto;
 
   protected AbstractWebService() {
-    this.serviceConfigDto = ServiceConfigLoader.loadServiceConfig();
+    ServiceConfigLoader serviceConfigLoader = new ServiceConfigLoader();
+    this.serviceConfigDto = serviceConfigLoader.loadServiceConfig();
   }
 
   protected RequestSpecification getDefaultSpecification() {
     RequestSpecBuilder specBuilder =
         new RequestSpecBuilder()
             .setContentType(ContentType.JSON)
-            .setBaseUri(serviceConfigDto.getApiUrl())
-            .setPort(serviceConfigDto.getApiPort());
-    if (!StringUtils.isEmpty(serviceConfigDto.getApiBasePath())) {
-      specBuilder.setBasePath(serviceConfigDto.getApiBasePath());
+            .setBaseUri(serviceConfigDto.apiUrl())
+            .setPort(serviceConfigDto.apiPort());
+    if (!StringUtils.isEmpty(serviceConfigDto.apiBasePath())) {
+      specBuilder.setBasePath(serviceConfigDto.apiBasePath());
     }
     specBuilder
         .addFilter(new ResponseLoggingFilter())

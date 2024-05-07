@@ -1,12 +1,13 @@
-package org.github.bubochkana.models;
+package org.github.bubochkana.config.models;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
+@Accessors(fluent = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ServiceConfigDto {
   private String apiUrl;
   private int apiPort;

@@ -9,7 +9,12 @@
 <!--            </run>-->
 <!--        </groups>-->
         <classes>
-            <class name="org.github.bubochkana.placeholder.api.users.UsersTest"/>
+            <class name="org.github.bubochkana.placeholder.api.users.UsersCrudTest"/>
+        </classes>
+    </test>
+    <test name="Check Posts" preserve-order="true">
+        <classes>
+            <class name="org.github.bubochkana.placeholder.api.posts.PostsCrudTest"/>
         </classes>
     </test>
 </suite>

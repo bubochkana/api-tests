@@ -3,7 +3,6 @@ package org.github.bubochkana.config;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.github.bubochkana.models.ServiceConfigDto;
 
 public class MavenProperties {
   private Properties properties;
@@ -40,11 +39,5 @@ public class MavenProperties {
       e.getStackTrace();
     }
     return props;
-  }
-
-  public ServiceConfigDto getEnvironment() {
-    // Можеш створити модельку ServiceConfigDto і мати метод в MavenProperties який верне тобі цю
-    // модельку взалежності від енва: dev чи qa
-    return new ServiceConfigDto();
   }
 }
