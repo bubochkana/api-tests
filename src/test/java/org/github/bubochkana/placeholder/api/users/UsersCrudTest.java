@@ -7,6 +7,7 @@ import org.github.bubochkana.models.users.*;
 import org.github.bubochkana.placeholder.api.BaseTest;
 import org.github.bubochkana.service.Services;
 import org.github.bubochkana.testdata.UserTestData;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class UsersCrudTest extends BaseTest {
@@ -75,5 +76,20 @@ public class UsersCrudTest extends BaseTest {
   public void testVerifyUsersCountInRetrievedList() {
     List<UserResponseDto> usersListResponse = Services.placeholderApi().user().getAllUsers();
     assertThat(usersListResponse).hasSizeGreaterThan(5);
+  }
+
+  @DataProvider(name = "usersData")
+  public Object[][] testData() {
+    return new Object[][] {{clementinaDuBuque}, {leanneGraham}, {glennaReichert}};
+  }
+
+  @Test(
+      testName = "TC-6",
+      description = "Verify update several users",
+      groups = "Users",
+      dataProvider = "usersData")
+  public void verifyUpdateSeveralUsers(UserRequestDto user) {
+    UserResponseDto updatedUserResponse = Services.placeholderApi().user().updateUser(user, "1");
+    assertThat(updatedUserResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(user);
   }
 }
